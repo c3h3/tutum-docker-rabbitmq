@@ -1,11 +1,18 @@
-FROM ubuntu:trusty
-MAINTAINER Fernando Mayo <fernando@tutum.co>
+FROM debian:jessie
 
 # Install RabbitMQ
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F7B8CEA6056E8E56 && \
-    echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get install -y rabbitmq-server pwgen && \
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update
+RUN apt-get -y install wget
+
+RUN echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list
+RUN cd /tmp && wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc && apt-key add rabbitmq-signing-key-public.asc
+RUN apt-get update
+
+
+RUN apt-get install -y rabbitmq-server pwgen && \
     rabbitmq-plugins enable rabbitmq_management && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -17,3 +24,4 @@ RUN chmod 755 ./*.sh
 
 EXPOSE 5672 15672
 CMD ["/run.sh"]
+
