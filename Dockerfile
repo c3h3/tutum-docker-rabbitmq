@@ -22,6 +22,13 @@ ADD run.sh /run.sh
 ADD set_rabbitmq_password.sh /set_rabbitmq_password.sh
 RUN chmod 755 ./*.sh
 
+# change the owner of volume dir
+RUN chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
+
+
 EXPOSE 5672 15672
+VOLUME ["/var/lib/rabbitmq/"]
+
+
 CMD ["/run.sh"]
 
