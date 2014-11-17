@@ -23,11 +23,14 @@ ADD set_rabbitmq_password.sh /set_rabbitmq_password.sh
 RUN chmod 755 ./*.sh
 
 # change the owner of volume dir
-RUN chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
+#RUN chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
 
+RUN mkdir data
+ENV RABBITMQ_LOG_BASE /data/log
+ENV RABBITMQ_MNESIA_BASE /data/mnesia
 
 EXPOSE 5672 15672
-VOLUME ["/var/lib/rabbitmq/"]
+VOLUME ["/data/log","/data/mnesia"]
 
 
 CMD ["/run.sh"]
