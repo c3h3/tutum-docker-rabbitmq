@@ -62,7 +62,9 @@ Mount with outside mnesia and log directories
 -------------------------------------------------
 
 If you want to use outside "mnesia" and "log" directories, you could use the following command:
-
-    docker run -d -p 5672:5672 -p 15672:15672 -v outside_mnesia:/data/mnesia -v outside_log:/data/log c3h3/rabbitmq
+	
+	mkdir -p mnesia
+	mkdir -p log
+    docker run -d -p 5672:5672 -p 15672:15672 -v $PWD/mnesia:/data/mnesia -v $PWD/log:/data/log c3h3/rabbitmq
 
 
